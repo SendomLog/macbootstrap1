@@ -2,92 +2,93 @@
 source basic.sh
 
 if [[ ! -e /usr/local/bin/sslocal ]]; then
-    brew install shadowsocks-libev
-    brew services start shadowsocks-libev
-    ln -s /usr/local/opt/shadowsocks-libev/bin/ss-local /usr/local/bin/sslocal
-    ln -s /usr/local/opt/shadowsocks-libev/bin/ss-server /usr/local/bin/ss-server
+	brew install shadowsocks-libev
+	brew services start shadowsocks-libev
+	ln -s /usr/local/opt/shadowsocks-libev/bin/ss-local /usr/local/bin/sslocal
+	ln -s /usr/local/opt/shadowsocks-libev/bin/ss-server /usr/local/bin/ss-server
 else
-    echo "You have installed shadowsocks"
+	echo "You have installed shadowsocks"
 fi
 
 # install and use shadowsocks
 if not_tt_network; then
-    nohup sslocal -c ~/.macbootstrap/tools/netconf &> /private/tmp/nohup.out&
-    #export ALL_PROXY=socks5://127.0.0.1:14179
+	nohup sslocal -c ~/.macbootstrap/tools/netconf &
+	>/private/tmp/nohup.out &
+	#export ALL_PROXY=socks5://127.0.0.1:14179
 else
-    echo "You are in toutiao network, no need to use ss now"
+	echo "You are in toutiao network, no need to use ss now"
 fi
 
 if [[ ! -e /Applications/iTerm.app ]]; then
-    brew cask install iterm2
-    defaults delete com.googlecode.iterm2
-    ln -s ~/.macbootstrap/config/com.googlecode.iterm2.plist $HOME/Library/Preferences
-    # config background image location
-    command="set :New\ Bookmarks:0:Background\ Image\ Location /Users/""$(whoami)""/.macbootstrap/assets/iterm-background.jpg"
-    # Disable Background for performance issue
-    #/usr/libexec/PlistBuddy -c "$command" $HOME/Library/Preferences/com.googlecode.iterm2.plist
-    defaults read -app iTerm >/dev/null
+	brew_install_cask iterm2
+	defaults delete com.googlecode.iterm2
+	ln -s ~/.macbootstrap/config/com.googlecode.iterm2.plist $HOME/Library/Preferences
+	# config background image location
+	command="set :New\ Bookmarks:0:Background\ Image\ Location /Users/""$(whoami)""/.macbootstrap/assets/iterm-background.jpg"
+	# Disable Background for performance issue
+	#/usr/libexec/PlistBuddy -c "$command" $HOME/Library/Preferences/com.googlecode.iterm2.plist
+	defaults read -app iTerm >/dev/null
 else
-    echo "You have installed iTerm2"
+	echo "You have installed iTerm2"
 fi
 
 if [[ ! -e /Applications/SourceTree.app ]]; then
-    brew cask install sourcetree
+	brew_install_cask sourcetree
 else
-    echo "You have installed SourceTree"
+	echo "You have installed SourceTree"
 fi
 
 if [[ ! -e /Applications/WeChat.app ]]; then
-    brew cask install wechat
+	brew_install_cask wechat
 else
-    echo "You have installed WeChat"
+	echo "You have installed WeChat"
 fi
 
 if [[ ! -e /Applications/Google\ Chrome.app ]]; then
-    brew cask install google-chrome
+	brew_install_cask google-chrome
 
-    # Set Chrome as default browser
-    git clone https://github.com/kerma/defaultbrowser ./tools/defaultbrowser
-    (cd ./tools/defaultbrowser && make && make install)
-    defaultbrowser chrome
-    [[ -d ./tools/defaultbrowser ]] && rm -rf ./tools/defaultbrowser
+	# Set Chrome as default browser
+	git clone https://github.com/kerma/defaultbrowser ./tools/defaultbrowser
+	(cd ./tools/defaultbrowser && make && make install)
+	defaultbrowser chrome
+	[[ -d ./tools/defaultbrowser ]] && rm -rf ./tools/defaultbrowser
 else
-    echo "You have installed chrome"
+	echo "You have installed chrome"
 fi
 
 if [[ ! -e /Applications/Visual\ Studio\ Code.app ]]; then
-    brew cask install visual-studio-code
-    sh ./vscode/setup.sh
+	brew_install_cask visual-studio-code
+	sh ./vscode/setup.sh
 else
-    echo "You have installed vscode"
+	echo "You have installed vscode"
 fi
 
-if brew ls --versions gnu-sed > /dev/null; then
-    echo "You have installed gsed"
+if brew ls --versions gnu-sed >/dev/null; then
+	echo "You have installed gsed"
 else
-    brew install gnu-sed
+	brew install gnu-sed
 fi
 
 # install sz/rz
-if brew ls --versions lrzsz > /dev/null; then
-    echo "You have installed lrzsz"
+if brew ls --versions lrzsz >/dev/null; then
+	echo "You have installed lrzsz"
 else
-    brew install lrzsz
+	brew install lrzsz
 fi
 
 # install coreutils
 if [[ ! -e /usr/local/opt/coreutils ]]; then
-    brew install coreutils
-    cp /usr/local/opt/coreutils/libexec/gnubin/gls /usr/local/opt/coreutils/libexec/gnubin/ls
+	brew install coreutils
+	cp /usr/local/opt/coreutils/libexec/gnubin/gls /usr/local/opt/coreutils/libexec/gnubin/ls
 else
-    echo "You have installed coreutils"
+	echo "You have installed coreutils"
 fi
 
 # install jetbrain toolbox
 if [[ ! -e /Applications/JetBrains\ Toolbox.app ]]; then
-    brew cask install jetbrains-toolbox
+	brew_install_cask jetbrains-toolbox
 else
-    echo "You have installed JetBrains Toolbox"
+	echo "You have installed JetBrains Toolbox"
 fi
 
 brew install --HEAD universal-ctags/universal-ctags/universal-ctags
@@ -123,7 +124,7 @@ ln -s ~/.macbootstrap/git-config/.gitconfig ~/.gitconfig
 ln -s ~/.macbootstrap/git-config/.gitattributes ~/.gitattributes
 
 if [[ ! -e ~/.oh-my-zsh ]]; then
-    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+	curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 fi
 
 # zshrc setup
@@ -147,7 +148,7 @@ ln -s ~/.macbootstrap/.eslintrc.js ~/.eslintrc.js
 
 # Ranger configuration
 if [[ ! -e $HEME/.config/ranger ]]; then
-    mkdir -p $HOME/.config/ranger
+	mkdir -p $HOME/.config/ranger
 fi
 old_commands_py=$HOME/.config/ranger/commands.py
 old_rc_conf=$HOME/.config/ranger/rc.conf
@@ -166,11 +167,10 @@ sudo ./install-steps/macos.sh
 # ssh configuration
 backup_file ~/.ssh/config
 if [[ ! -e ~/.ssh ]]; then
-    mkdir ~/.ssh
+	mkdir ~/.ssh
 fi
 ln -s ~/.macbootstrap/zsh-config/ssh_config ~/.ssh/config
 
 # Personal
 ./install-steps/personal.sh
 ./personal.sh
-
