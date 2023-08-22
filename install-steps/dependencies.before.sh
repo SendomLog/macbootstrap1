@@ -1,4 +1,6 @@
 # Install chisel for debugging in lldb
+source $HOME/.macbootstrap/basic.sh
+
 brew install chisel
 if [[ ! -e ~/.lldbinit ]]; then
 	cp ~/.macbootstrap/config/.lldbinit ~/.lldbinit

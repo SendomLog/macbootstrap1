@@ -92,10 +92,19 @@ pip3 install --trusted-host pypi.python.org neovim jedi ipython
 pip3 install --user --upgrade --trusted-host pypi.python.org PyYAML
 
 # Gem update
-sudo gem update --system 2.7.6
-sudo gem install -n /usr/local/bin cocoapods
-sudo gem install -n /usr/local/bin cocoapods-plugins
-sudo gem install colored
+brew install rbenv ruby-build
+rbenv install 2.7.6
+eval "$(rbenv init - zsh)"
+echo 'eval "$(rbenv init - zsh)"' >> ~/.zshrc
+rbenv local 2.7.6
+gem install cocoapods
+gem install cocoapods-plugins
+gem install colored
+
+# sudo gem update --system 2.7.6
+# sudo gem install -n /usr/local/bin cocoapods
+# sudo gem install -n /usr/local/bin cocoapods-plugins
+# sudo gem install colored
 
 # nvm & npm install
 if [[ ! -d $HOME/.nvm ]]; then
